@@ -1,3 +1,3 @@
-module throwing
+module avi.utils.throwing
 {
 }
