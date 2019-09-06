@@ -57,6 +57,7 @@ public class Catcher<T extends Exception> implements Consumer<Exception>
 		return Catcher.of(Exception.class, cons);
 	}
 
+	@Override
 	@Deprecated
 	public Catcher<T> andThen(Consumer<? super Exception> after)
 	{

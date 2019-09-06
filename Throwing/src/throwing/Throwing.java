@@ -11,6 +11,16 @@ import java.util.function.Supplier;
  */
 public class Throwing
 {
+	public static void run(ThrowingRunnable tr)
+	{
+		tr.run();
+	}
+	
+	public static void run(ThrowingRunnable tr, ThrowingConsumer<Exception> tc)
+	{
+		ThrowingRunnable.of(tr, tc::accept);
+	}
+	
 	public static Runnable of(ThrowingRunnable tr)
 	{
 		return ThrowingRunnable.of(tr);
