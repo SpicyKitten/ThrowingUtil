@@ -2,6 +2,7 @@ package throwing;
 
 import java.util.function.Consumer;
 import java.util.function.Supplier;
+import java.util.stream.Stream;
 
 /**
  * As long as you know what you're constructing, this class will let you create
@@ -11,14 +12,22 @@ import java.util.function.Supplier;
  */
 public class Throwing
 {
-	public static void run(ThrowingRunnable tr)
+	public static void run(ThrowingRunnable... trs)
 	{
-		tr.run();
+		for(var tr : trs)
+		{
+			tr.run();
+		}
 	}
 	
-	public static void run(ThrowingRunnable tr, ThrowingConsumer<Exception> tc)
+	public static void run(Stream<ThrowingRunnable> trs)
 	{
-		ThrowingRunnable.of(tr, tc::accept);
+		trs.forEach(ThrowingRunnable::run);
+	}
+	
+	public static void run(Stream<ThrowingRunnable> trStream, ThrowingConsumer<Exception> tc)
+	{
+		trStream.forEach(tr -> Throwing.of(tr, tc).run());
 	}
 	
 	public static Runnable of(ThrowingRunnable tr)
