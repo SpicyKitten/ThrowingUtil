@@ -5,37 +5,39 @@ import java.util.function.Consumer;
 @FunctionalInterface
 public interface ThrowingConsumer<T> extends Consumer<T>, ExceptionFlowController
 {
-	public abstract void accept_(T t) throws Exception;
-	
+	void accept_(T t) throws Exception;
+
 	@Override
 	default void accept(T t)
 	{
 		try
 		{
-			accept_(t);
+			this.accept_(t);
 		}
 		catch (Exception e)
 		{
-			handle(e);
+			this.handle(e);
 		}
 	}
-	
+
 	static <T> Consumer<T> of(ThrowingConsumer<T> tc, Consumer<Exception> h)
 	{
-		return new ThrowingConsumer<T>()
+		return new ThrowingConsumer<>()
 		{
+			@Override
 			public void accept_(T t) throws Exception
 			{
 				tc.accept_(t);
 			}
-			
+
+			@Override
 			public void handle(Exception e)
 			{
 				h.accept(e);
 			}
 		};
 	}
-	
+
 	static <T> Consumer<T> of(ThrowingConsumer<T> tc)
 	{
 		return tc;

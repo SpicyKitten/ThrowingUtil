@@ -5,7 +5,7 @@ package throwing;
  */
 public interface ExceptionFlowController
 {
-	public default void handle(Exception e)
+	default void handle(Exception e)
 	{
 		ThrowingUtil.raise(e);
 	}
